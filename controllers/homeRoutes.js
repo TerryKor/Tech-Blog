@@ -3,8 +3,8 @@ const { User, Post, Comment } = require("../models");
 const auth = require("../utils/auth");
 const { route, post } = require("./api/userRoutes");
 
-route.get("/", auth, async (req, res) => {
-  try {
+router.get("/",  async (req, res) => {
+   try {
     const postsData = await Post.findAll({
       order: [["post_created_date", "DESC"]],
       include: [
@@ -22,7 +22,7 @@ route.get("/", auth, async (req, res) => {
     });
     res.render("home", {
       posts,
-      logged_in: req.session.logged_in,
+       logged_in: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -59,36 +59,66 @@ router.get("/posts/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/dashboard", auth, async (req, res) => {
+router.get("/dashboard", async (req, res) => {
   try {
-    const userId = req.session.user_id;
+    // const userId = req.session.user_id;
 
-    const PostData = await Post.findAll({
-      where: {
-        author_id: userId,
-      },
-      include: [
-        {
-          model: User,
-          as: "author",
-        },
-      ],
-    });
-    const posts = PostData.map((post) => {
-      post.get({ plain: true });
-    });
+    // const PostData = await Post.findAll({
+    //   where: {
+    //     author_id: userId,
+    //   },
+    //   include: [
+    //     {
+    //       model: User,
+    //       as: "author",
+    //     },
+    //   ],
+    // });
+    // const posts = PostData.map((post) => {
+    //   post.get({ plain: true });
+    // });
 
-    const userData = await User.findByPk(userId);
-    res.render("dashboard", {
-      posts,
+    // const userData = await User.findByPk(userId);
+    res.render("dashboard" 
+    //,{
+     // posts,
       //post data from seeds???
-      logged_in: req.session.logged_in,
-      username: userData.username,
-    });
+     // logged_in: req.session.logged_in,
+     // username: userData.username,
+    //}
+    );
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
+router.get("/createNewPost",async(req,res)=>{
+  try{
+    res.render("createNewPost")
+
+  }catch(err){
+
+  }
+})
+
+router.get("/editPost",async(req,res)=>{
+  try{
+    res.render("editPost")
+
+  }catch(err){
+
+  }
+})
+
+router.get("/addComment",async(req,res)=>{
+  try{
+    res.render("addComment")
+
+  }catch(err){
+
+  }
+})
+
 
 router.get("/edit-post/:id", auth, async (req, res) => {
   try {
@@ -137,7 +167,7 @@ router.put("/edit-post/:id", auth, async (req, res) =>{
         } await Post.update(
             {
                 title,
-                content,
+                post,
                 post_created_date: new Date()
             },
             {
