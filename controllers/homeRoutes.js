@@ -69,34 +69,33 @@ router.get("/posts/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/dashboard", async (req, res) => {
+router.get("/dashboard",auth, async (req, res) => {
   try {
-    // const userId = req.session.user_id;
+    const userId = req.session.user_id;
+    const PostData = await Post.findAll({
+      where: {
+        author_id: userId,
+      },
+      include: [
+        {
+          model: User,
+          as: "author",
+        },
+      ],
+    });
+    const posts = PostData.map((post) => {
+     return post.get({ plain: true });
+    });
 
-    // const PostData = await Post.findAll({
-    //   where: {
-    //     author_id: userId,
-    //   },
-    //   include: [
-    //     {
-    //       model: User,
-    //       as: "author",
-    //     },
-    //   ],
-    // });
-    // const posts = PostData.map((post) => {
-    //   post.get({ plain: true });
-    // });
+   
 
-    // const userData = await User.findByPk(userId);
+    
     res.render(
       "dashboard"
-      //,{
-      // posts,
-      //post data from seeds???
-      // logged_in: req.session.logged_in,
-      // username: userData.username,
-      //}
+      ,{
+      posts,
+      logged_in: req.session.logged_in,
+      }
     );
   } catch (err) {
     res.status(500).json(err);
@@ -186,19 +185,19 @@ router.put("/edit-post/:id", auth, async (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  // if (req.session.logged_in) {
-  //   res.redirect("/dashboard");
-  //   return;
-  // }
+  if (req.session.logged_in) {
+    res.redirect("/dashboard");
+    return;
+  }
 
   res.render("login");
 });
 
 router.get("/signUp", (req, res) => {
-  // if (req.session.logged_in) {
-  //   res.redirect("/dashboard");
-  //   return;
-  // }
+  if (req.session.logged_in) {
+    res.redirect("/dashboard");
+    return;
+  }
   res.render("signup");
 });
 

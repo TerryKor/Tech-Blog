@@ -12,7 +12,7 @@
         </div>
 
         <div class="pl-3 ">
-          <input
+          <input id="titleField"
             class="w-[99%] h-9 rounded-md pl-2 focus:outline-none focus:ring-2 focus:ring-blue-600 "
             type="text"
             placeholder="Title..."
@@ -24,7 +24,7 @@
         </div>
 
         <div class="pl-3">
-          <textarea
+          <textarea id="contentField"
             class="w-[99%] text-start p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
             rows="5"
             cols="5"
@@ -34,7 +34,7 @@
           ></textarea>
         </div>
 
-        <div
+        <div id="createPostButton"
           class="pl-3 pt-1 mt-2 mb-2 text-[rgb(186,220,157)] hover:text-[rgb(124,238,24)] font-bold"
         >
           <button
@@ -44,14 +44,9 @@
           </button>
         </div>
 
-        <div class="self-center rounded-lg flex flex-col justify-center">
-          <div
-            class="flex self-center rounded-lg w-[9rem] h-[2.2rem] mb-5 place-content-center text-[rgb(186,220,157)] hover:text-[rgb(124,238,24)] text-xl bg-[rgb(46,20,20)] hover:bg-[rgb(71,36,36)]"
-          >
-            <button>+ New Post</button>
-          </div>
-        </div>
+        
       </div>
     </div>
+    <script src="/js/createPost.js"></script>
 
 </section>

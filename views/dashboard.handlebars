@@ -1,5 +1,7 @@
 <section class="justify-self-center bg-[rgb(186,220,157)]">
 
+ 
+ {{#each posts as |post|}}
 <a class="grid justify-items-center mt-6" href="/editPost">
       <div
         class="flex flex-col text-lg w-11/12 border-solid border-4 border-[rgb(46,20,20)]"
@@ -7,18 +9,17 @@
         <div
           class="flex flex-row justify-between pt-2 pb-2 pl-3 pr-3 text-[rgb(186,220,157)] bg-[rgb(46,20,20)]"
         >
-          <p class="font-bold">Why MVC is so important</p>
-          <p>Posted by Test-user1 on 19/04/2023</p>
+          <p class="font-bold">{{post.title}}</p>
+          <p>Posted by {{post.author.username}} on {{format_date post.post_created_date}}</p>
         </div>
 
         <p class="p-3">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum
-          quibusdam illo, est sint mollitia voluptates officiis quisquam
-          excepturi in perferendis sed consequatur, ratione nam officia sit
-          nesciunt aliquid! Possimus, dolores.
+         {{post.content}}
         </p>
       </div>
     </a>
+
+    {{/each}}
 
     <div class="grid justify-items-center mt-6">
       <div

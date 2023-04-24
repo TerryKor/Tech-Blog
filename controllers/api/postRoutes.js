@@ -6,8 +6,8 @@ router.post("/", auth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
-      post_content: req.body.post_content,
-      post_created_date: req.body.post_created_date,
+      content: req.body.content,
+      // post_created_date: req.body.post_created_date,
       author_id: req.session.user_id,
     });
     res.status(200).json(newPost);
