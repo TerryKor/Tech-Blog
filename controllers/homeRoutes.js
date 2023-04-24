@@ -3,41 +3,42 @@ const { User, Post, Comment } = require("../models");
 const auth = require("../utils/auth");
 const { route, post } = require("./api/userRoutes");
 
-// router.get("/",  async (req, res) => {
-//    try {
-//     const postsData = await Post.findAll({
-//       order: [["post_created_date", "DESC"]],
-//       include: [
-//         {
-//           model: User,
-//           //   attributes: ["username", "password"],
-//         },
-//       ],
-//     });
+router.get("/", auth,  async (req, res) => {
+   try {
+    const postsData = await Post.findAll({
+      order: [["post_created_date", "DESC"]],
+      include: [
+        {
+          model: User,
+          as: "author"
+          //   attributes: ["username", "password"],
+        },
+      ],
+    });
 
-//     const posts = postsData.map((post) => {
-//       post.get({
-//         plain: true,
-//       });
-//     });
-//     res.render("home", {
-//       posts,
-//        logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-router.get("/", async (req, res) => {
-  try {
+    const posts = postsData.map((post) => {
+      return post.get({
+        plain: true,
+      });
+    });
     res.render("home", {
-      logged_in: req.session.logged_in,
+      posts,
+       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.sendStatus(500).json(err);
+    res.status(500).json(err);
   }
 });
+
+// router.get("/", async (req, res) => {
+//   try {
+//     res.render("home", {
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.sendStatus(500).json(err);
+//   }
+// });
 
 router.get("/posts/:id", auth, async (req, res) => {
   try {
