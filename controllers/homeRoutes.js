@@ -87,10 +87,6 @@ router.get("/dashboard",auth, async (req, res) => {
     const posts = PostData.map((post) => {
      return post.get({ plain: true });
     });
-
-   
-
-    
     res.render(
       "dashboard"
       ,{
@@ -106,19 +102,51 @@ router.get("/dashboard",auth, async (req, res) => {
 router.get("/createNewPost", async (req, res) => {
   try {
     res.render("createNewPost");
-  } catch (err) {}
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get("/editPost", async (req, res) => {
   try {
     res.render("editPost");
-  } catch (err) {}
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-router.get("/addComment", async (req, res) => {
+router.get("/post/:id/addComment", async (req, res) => {
   try {
-    res.render("addComment");
-  } catch (err) {}
+    const postsData = await Post.findByPk(req.params.id, {
+      inculde: [
+        {
+          model: User,
+          as: "author",
+        },
+        {
+          model: Comment,
+          include: [User],
+          order: [["comment_created_date", "DESC"]],
+        },
+      ],
+    });
+    const post = postsData.get({
+      plain: true,
+    });
+    const isAuthor = req.session.user_id === post.author_id;
+    
+    // if( isAuthor){
+    //   res.redirect("/editPost")
+    // }else{
+    res.render("addComment", {
+      ...post,
+      logged_in: req.session.logged_in,
+    
+    });
+  // }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get("/edit-post/:id", auth, async (req, res) => {
