@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="styles.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Tech Blog</title>
   </head>
@@ -17,7 +16,11 @@
       >
         <a class="hover:text-[rgb(124,238,24)]" href="/">Home</a>
         <a class="hover:text-[rgb(124,238,24)]" href="/dashboard">Dashboard</a>
-        <a class="hover:text-[rgb(124,238,24)]" href="">Logout</a>
+        {{#if logged_in}}
+        <a class="hover:text-[rgb(124,238,24)]" id="logout" href="/">Logout</a>
+        {{else}}
+        <a class="hover:text-[rgb(124,238,24)]" href="/login">Login</a>
+        {{/if}}
       </ul>
     </div>
 
@@ -31,8 +34,11 @@
         {{{body}}}
     </main>
 
-    
+    {{#if logged_in}}
+      <script src="/js/logout.js"></script>
+    {{/if}}
   </body>
+
 
 
 </html>

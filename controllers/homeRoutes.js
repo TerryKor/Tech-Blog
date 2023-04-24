@@ -3,29 +3,39 @@ const { User, Post, Comment } = require("../models");
 const auth = require("../utils/auth");
 const { route, post } = require("./api/userRoutes");
 
-router.get("/",  async (req, res) => {
-   try {
-    const postsData = await Post.findAll({
-      order: [["post_created_date", "DESC"]],
-      include: [
-        {
-          model: User,
-          //   attributes: ["username", "password"],
-        },
-      ],
-    });
+// router.get("/",  async (req, res) => {
+//    try {
+//     const postsData = await Post.findAll({
+//       order: [["post_created_date", "DESC"]],
+//       include: [
+//         {
+//           model: User,
+//           //   attributes: ["username", "password"],
+//         },
+//       ],
+//     });
 
-    const posts = postsData.map((post) => {
-      post.get({
-        plain: true,
-      });
-    });
+//     const posts = postsData.map((post) => {
+//       post.get({
+//         plain: true,
+//       });
+//     });
+//     res.render("home", {
+//       posts,
+//        logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+router.get("/", async (req, res) => {
+  try {
     res.render("home", {
-      posts,
-       logged_in: req.session.logged_in,
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500).json(err);
   }
 });
 
@@ -79,46 +89,37 @@ router.get("/dashboard", async (req, res) => {
     // });
 
     // const userData = await User.findByPk(userId);
-    res.render("dashboard" 
-    //,{
-     // posts,
+    res.render(
+      "dashboard"
+      //,{
+      // posts,
       //post data from seeds???
-     // logged_in: req.session.logged_in,
-     // username: userData.username,
-    //}
+      // logged_in: req.session.logged_in,
+      // username: userData.username,
+      //}
     );
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.get("/createNewPost",async(req,res)=>{
-  try{
-    res.render("createNewPost")
+router.get("/createNewPost", async (req, res) => {
+  try {
+    res.render("createNewPost");
+  } catch (err) {}
+});
 
-  }catch(err){
+router.get("/editPost", async (req, res) => {
+  try {
+    res.render("editPost");
+  } catch (err) {}
+});
 
-  }
-})
-
-router.get("/editPost",async(req,res)=>{
-  try{
-    res.render("editPost")
-
-  }catch(err){
-
-  }
-})
-
-router.get("/addComment",async(req,res)=>{
-  try{
-    res.render("addComment")
-
-  }catch(err){
-
-  }
-})
-
+router.get("/addComment", async (req, res) => {
+  try {
+    res.render("addComment");
+  } catch (err) {}
+});
 
 router.get("/edit-post/:id", auth, async (req, res) => {
   try {
@@ -149,57 +150,56 @@ router.get("/edit-post/:id", auth, async (req, res) => {
   }
 });
 
-router.put("/edit-post/:id", auth, async (req, res) =>{
-    try{
-        const postId = req.params.id;
-        const {title, post } = req.body;
+router.put("/edit-post/:id", auth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { title, post } = req.body;
 
-        const postData = await Post.findByPk(postId);
+    const postData = await Post.findByPk(postId);
 
-        if(!postData){
-            res.status(404).json({message:"No post found with that ID!"});
-            return;
-        }
-
-        if(postData.author_id !== req.session.user_id) {
-            res.status(403).json({message: "Please log in to edit this post"});
-            return;
-        } await Post.update(
-            {
-                title,
-                post,
-                post_created_date: new Date()
-            },
-            {
-                where:{
-                    id:postId,
-                },
-            }
-        );
-        res.status(200).json({ message: "Review updated successfully"});
+    if (!postData) {
+      res.status(404).json({ message: "No post found with that ID!" });
+      return;
     }
-    catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+
+    if (postData.author_id !== req.session.user_id) {
+      res.status(403).json({ message: "Please log in to edit this post" });
+      return;
+    }
+    await Post.update(
+      {
+        title,
+        post,
+        post_created_date: new Date(),
+      },
+      {
+        where: {
+          id: postId,
+        },
       }
+    );
+    res.status(200).json({ message: "Review updated successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 router.get("/login", (req, res) => {
-    if (req.session.logged_in) {
-      res.redirect("/dashboard");
-      return;
-    }
-  
-    res.render("login");
-  });
-  
-  router.get("/signUp", (req, res) => {
-    if (req.session.logged_in) {
-      res.redirect("/dashboard");
-      return;
-    }
-    res.render("signUp");
-  });
-  
-  module.exports = router;
-  
+  // if (req.session.logged_in) {
+  //   res.redirect("/dashboard");
+  //   return;
+  // }
+
+  res.render("login");
+});
+
+router.get("/signUp", (req, res) => {
+  // if (req.session.logged_in) {
+  //   res.redirect("/dashboard");
+  //   return;
+  // }
+  res.render("signup");
+});
+
+module.exports = router;
