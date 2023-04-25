@@ -3,7 +3,7 @@ const { User, Post, Comment } = require("../models");
 const auth = require("../utils/auth");
 const { route, post } = require("./api/userRoutes");
 
-router.get("/", auth,  async (req, res) => {
+router.get("/",  async (req, res) => {
    try {
     const postsData = await Post.findAll({
       order: [["post_created_date", "DESC"]],
@@ -99,7 +99,7 @@ router.get("/dashboard",auth, async (req, res) => {
   }
 });
 
-router.get("/createNewPost", async (req, res) => {
+router.get("/createNewPost", auth, async (req, res) => {
   try {
     res.render("createNewPost");
   } catch (err) {
@@ -107,7 +107,7 @@ router.get("/createNewPost", async (req, res) => {
   }
 });
 
-router.get("/editPost/:id", async (req, res) => {
+router.get("/editPost/:id", auth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
@@ -170,7 +170,7 @@ router.put("/editPost/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/post/:id/addComment", async (req, res) => {
+router.get("/post/:id/addComment", auth, async (req, res) => {
   try {
     const postsData = await Post.findByPk(req.params.id, {
       include: [

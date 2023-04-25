@@ -27,7 +27,13 @@
     <div
       class="flex flex-row bg-[rgb(186,220,157)] w-48 mt-6 ml-24 mr-[40rem] place-content-center pt-1 pb-1 rounded-md shadow-[6px_7px_2px_1px_#DEE8D6]"
     >
-      <h1 class="font-bold text-2xl">The Tech Blog</h1>
+      <h1 class="font-bold text-2xl">
+        {{#if logged_in}}
+        Your Dashboard
+        {{else}}
+        The Tech Blog
+        {{/if}}
+      </h1>
     </div>
   </nav>
     <main>
