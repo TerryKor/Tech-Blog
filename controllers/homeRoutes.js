@@ -107,10 +107,65 @@ router.get("/createNewPost", async (req, res) => {
   }
 });
 
-router.get("/editPost", async (req, res) => {
+router.get("/editPost/:id", async (req, res) => {
   try {
-    res.render("editPost");
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: "author",
+        },
+      ],
+    });
+    if (!postData) {
+      res.status(404).json({ message: "No post is found with that ID " });
+      return;
+    }
+    const post = postData.get({ plain: true });
+    if (post.author_id !== req.session.user_id) {
+      res.status(403).json({ message: "Please log in to edit this post" });
+      return;
+    }
+
+    
+    res.render("editPost", {
+      post,
+      logged_in: req.session.logged_in,
+    });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.put("/editPost/:id", auth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const postData = await Post.findByPk(postId);
+
+    if (!postData) {
+      res.status(404).json({ message: "No post found with that ID!" });
+      return;
+    }
+
+    if (postData.author_id !== req.session.user_id) {
+      res.status(403).json({ message: "Please log in to edit this post" });
+      return;
+    }
+    await Post.update(
+      {
+        title,
+        content,
+        post_created_date: new Date(),
+      },
+      {
+        where: {
+          id: postId,
+        },
+      }
+    );
+    res.status(200).json({ message: "Review updated successfully" });
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -118,7 +173,7 @@ router.get("/editPost", async (req, res) => {
 router.get("/post/:id/addComment", async (req, res) => {
   try {
     const postsData = await Post.findByPk(req.params.id, {
-      inculde: [
+      include: [
         {
           model: User,
           as: "author",
@@ -178,40 +233,7 @@ router.get("/edit-post/:id", auth, async (req, res) => {
   }
 });
 
-router.put("/edit-post/:id", auth, async (req, res) => {
-  try {
-    const postId = req.params.id;
-    const { title, post } = req.body;
 
-    const postData = await Post.findByPk(postId);
-
-    if (!postData) {
-      res.status(404).json({ message: "No post found with that ID!" });
-      return;
-    }
-
-    if (postData.author_id !== req.session.user_id) {
-      res.status(403).json({ message: "Please log in to edit this post" });
-      return;
-    }
-    await Post.update(
-      {
-        title,
-        post,
-        post_created_date: new Date(),
-      },
-      {
-        where: {
-          id: postId,
-        },
-      }
-    );
-    res.status(200).json({ message: "Review updated successfully" });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
 
 router.get("/login", (req, res) => {
   if (req.session.logged_in) {

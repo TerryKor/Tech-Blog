@@ -12,10 +12,10 @@
         </div>
 
         <div class="pl-3">
-          <input
+          <input id="titleData"
             class="w-[99%] h-9 rounded-md pl-2"
             type="text"
-            placeholder="Title..."
+            placeholder="{{post.title}}"
           />
         </div>
 
@@ -24,17 +24,17 @@
         </div>
 
         <div class="pl-3">
-          <textarea
+          <textarea id="contentData"
             class="w-[99%] text-start p-2"
             rows="5"
             cols="5"
             name="comment"
             form="usrform"
-            placeholder="Your comment here... "
+            placeholder="{{post.content}}"
           ></textarea>
         </div>
 
-        <div
+        <div id="updateButton"
           class="pl-3 pt-1 mt-2  text-[rgb(186,220,157)] hover:text-[rgb(124,238,24)] font-bold"
         >
           <button
@@ -44,7 +44,7 @@
           </button>
         </div>
 
-        <div
+        <div id="deleteButton"
         class="pl-3 pt-1 mt-1 mb-5 text-[rgb(186,220,157)] hover:text-[rgb(124,238,24)] font-bold"
       >
         <button
@@ -57,4 +57,5 @@
         </div>
       </div>
     </div>
+    <script src="/js/editPost.js"></script>
  </section>

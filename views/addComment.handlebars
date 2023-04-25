@@ -6,15 +6,28 @@
         <div
           class="flex flex-row justify-between pt-2 pb-2 pl-3 pr-3 text-[rgb(186,220,157)] bg-[rgb(46,20,20)]"
         >
-          <p class="font-bold">{{title}}</p>
-          <p>Posted by  on {{format_date post_created_date}}</p>
+          <p class="font-bold" id="posttitle" postIDforComment={{id}}>{{title}}</p>
+          <p>Posted by {{author.username}} on {{format_date post_created_date}}</p>
         </div>
 
         <p class="p-3">{{content}}
         </p>
       </div>
     </div>
+{{#each comments as |comment|}}
+    <div class="grid justify-items-center mt-6">
+      <div
+        class="flex flex-col text-lg w-11/12 border-solid border-4 border-[rgb(46,20,20)]"
+      >
+        <div class="pt-7 pb-2 pl-3 bg-[rgb(46,20,20)]"></div>
 
+        <div class="flex flex-col gap-3 pl-3 pt-8 pb-8 mb-3">
+          <p>{{comment.comment}}</p>
+          <p>-{{comment.user.username}},{{format_date comment.comment_created_date}}</p>
+        </div>
+      </div>
+    </div>
+{{/each}}
     <div class="grid justify-items-center mt-6">
       <div
         class="flex flex-col text-lg w-11/12 border-solid border-4 border-[rgb(46,20,20)]"
@@ -36,10 +49,10 @@
           ></textarea>
         </div>
 
-        <div
+        <div id="submitButton"
           class="pl-3 pt-1 mt-2 mb-4 text-[rgb(186,220,157)] hover:text-[rgb(124,238,24)] font-bold"
         >
-          <button id="submitButton"
+          <button
             class="bg-[rgb(96,96,96)] hover:bg-[rgb(68,68,68)] w-[99%] h-9 rounded-md pl-2 transition duration-700 ease-in-out"
           >
             Submit
