@@ -8,18 +8,18 @@
     <title>Tech Blog</title>
   </head>
 
-  <body>
+  <body class="bg-[rgb(186,220,157)]">
   <nav class="bg-[rgb(46,20,20)] h-36">
     <div>
       <ul
         class="flex flex-row gap-16 ml-20 pt-7 text-lg text-[rgb(186,220,157)]"
       >
-        <a class="hover:text-[rgb(124,238,24)]" href="/">Home</a>
-        <a class="hover:text-[rgb(124,238,24)]" href="/dashboard">Dashboard</a>
+        <a class="hover:text-[rgb(124,238,24)] hover:scale-110 hover:duration-700 duration-700" href="/">Home</a>
+        <a class="hover:text-[rgb(124,238,24)] hover:scale-110 hover:duration-700 duration-700" href="/dashboard">Dashboard</a>
         {{#if logged_in}}
-        <a class="hover:text-[rgb(124,238,24)]" id="logout" href="/">Logout</a>
+        <a class="hover:text-[rgb(124,238,24)] hover:scale-110 hover:duration-700 duration-700" id="logout" href="/">Logout</a>
         {{else}}
-        <a class="hover:text-[rgb(124,238,24)]" href="/login">Login</a>
+        <a class="hover:text-[rgb(124,238,24)] hover:scale-110 hover:duration-700 duration-700" href="/login">Login</a>
         {{/if}}
       </ul>
     </div>
@@ -36,7 +36,7 @@
       </h1>
     </div>
   </nav>
-    <main>
+    <main class="bg-[rgb(186,220,157)]">
         {{{body}}}
     </main>
 
