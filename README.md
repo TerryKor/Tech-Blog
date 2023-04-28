@@ -51,7 +51,7 @@ source ./db/schema.sql
 
 ## Usage
 
-- See deplpoyed page [here](). Otherwise follow Insatallation instructions<br />
+- See deplpoyed page [here](https://boiling-waters-85305.herokuapp.com/). Otherwise follow Insatallation instructions<br />
 
 
 ## Contribution

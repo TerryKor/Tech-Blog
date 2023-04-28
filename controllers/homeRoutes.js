@@ -30,15 +30,7 @@ router.get("/",  async (req, res) => {
   }
 });
 
-// router.get("/", async (req, res) => {
-//   try {
-//     res.render("home", {
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.sendStatus(500).json(err);
-//   }
-// });
+
 
 router.get("/posts/:id", auth, async (req, res) => {
   try {
